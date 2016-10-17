@@ -1,0 +1,14 @@
+{
+    "version": "0.0.1",
+    "summary": "",
+    "repository": "https://github.com/maackle/elm-purememo.git",
+    "license": "BSD3",
+    "source-directories": [
+        "src"
+    ],
+    "exposed-modules": [],
+    "dependencies": {
+        "elm-lang/core": "4.0.5 <= v < 5.0.0"
+    },
+    "elm-version": "0.17.1 <= v < 0.18.0"
+}
