@@ -154,3 +154,4 @@ In contrast, `purememo` takes the pure approach. Each purememo calculation retur
 - Figure out how to do truly recursive memoization (e.g. https://wiki.haskell.org/Memoization)
 - More functions on `Memo`
 - More tests
+- Cooler/more relevant examples
