@@ -47,7 +47,7 @@ all =
         , describe "purememoExplicit"
             [ test "Fibonacci" <|
                 \() ->
-                    Expect.equal (fib 50) 12586269025
+                    Expect.equal (fibonacci 50) 12586269025
             , test "Fibonacci internals" <|
                 \() ->
                     Expect.equal
@@ -70,6 +70,8 @@ all =
         ]
 
 
+-- example applications
+
 memofac : Memo Int Int Int
 memofac =
   let
@@ -79,6 +81,12 @@ memofac =
       else n * (fst <| Purememo.apply memofac d (n - 1))
   in
     purememoExplicit identity fac
+
+factorial n =
+    Purememo.thread memofac Dict.empty [1..n]
+    |> snd
+    |> Dict.get n
+    |> Maybe.withDefault 0  -- This will never actually happen
 
 
 memofib =
@@ -94,7 +102,7 @@ memofib =
               x + y
     in purememoExplicit identity fibX
 
-fib n =
+fibonacci n =
   let
     iterations = List.foldl (\n d -> snd <| Purememo.apply memofib d n) Dict.empty [2..n]
   in
