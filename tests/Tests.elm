@@ -51,7 +51,7 @@ all =
             , test "Fibonacci internals" <|
                 \() ->
                     Expect.equal
-                        (List.foldl (\n d -> snd <| Purememo.apply memofib d n) Dict.empty [0..5])
+                        (List.foldl (\n d -> second <| Purememo.apply memofib d n) Dict.empty <| List.range 0 5)
                         (Dict.fromList
                             [ (0, 0)
                             , (1, 1)
@@ -78,13 +78,13 @@ memofac =
     fac n d =
       if n == 0 then 0
       else if n == 1 then 1
-      else n * (fst <| Purememo.apply memofac d (n - 1))
+      else n * (first <| Purememo.apply memofac d (n - 1))
   in
     purememoExplicit identity fac
 
 factorial n =
-    Purememo.thread memofac Dict.empty [1..n]
-    |> snd
+    Purememo.thread memofac Dict.empty (List.range 1 n)
+    |> second
     |> Dict.get n
     |> Maybe.withDefault 0  -- This will never actually happen
 
@@ -96,15 +96,15 @@ memofib =
           else if n == 1 then 1
           else
             let
-              x = fst <| Purememo.apply memofib d (n - 1)
-              y = fst <| Purememo.apply memofib d (n - 2)
+              x = first <| Purememo.apply memofib d (n - 1)
+              y = first <| Purememo.apply memofib d (n - 2)
             in
               x + y
     in purememoExplicit identity fibX
 
 fibonacci n =
   let
-    iterations = List.foldl (\n d -> snd <| Purememo.apply memofib d n) Dict.empty [2..n]
+    iterations = List.foldl (\n d -> second <| Purememo.apply memofib d n) Dict.empty [2..n]
   in
     case Dict.get n iterations of
       Just val -> val

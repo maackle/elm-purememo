@@ -121,14 +121,14 @@ memofac =
     fac n d =  -- note that this takes both the value and the memoization dict
       if n == 0 then 0
       else if n == 1 then 1
-      else n * (fst <| Purememo.apply memofac d (n - 1))
+      else n * (first <| Purememo.apply memofac d (n - 1))
   in
     purememoExplicit identity fac
 
 -- memofac only works one level deep, so we have to build up the values incrementally.
 factorial n =
     Purememo.thread memofac Dict.empty [1..n]
-    |> snd
+    |> second
     |> Dict.get n
     |> Maybe.withDefault 0  -- This will never actually happen
 ```

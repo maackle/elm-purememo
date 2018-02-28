@@ -22,7 +22,7 @@ apply (Memo f) d c =
 
 -- apply function to each member of the list, threading the memodict through,
 -- reusing previous calculation
---    ex:  thread memofac Dict.empty [1..4] |> fst == [1, 2, 6, 24]
+--    ex:  thread memofac Dict.empty [1..4] |> first == [1, 2, 6, 24]
 thread : Memo comparable a b -> Dict comparable b -> List a -> (List b, Dict comparable b)
 thread (Memo f) d0 seq =
   let
@@ -40,7 +40,7 @@ thread (Memo f) d0 seq =
 
 
 -- repeat an operation n times, using the last result as the next input
---   ex: repeat (purememo identity ((*) 2)) Dict.empty 2 3 |> fst == 12
+--   ex: repeat (purememo identity ((*) 2)) Dict.empty 2 3 |> first == 12
 repeat : Memo comparable a a -> Dict comparable a -> Int -> a -> (a, Dict comparable a)
 repeat (Memo f) d0 n a0 =
   let
@@ -49,7 +49,7 @@ repeat (Memo f) d0 n a0 =
         (a1, d1) = f (a0, d0)
       in
         (a1, d1)
-    (a1, d1) = List.foldl rf (a0, d0) [1..n]
+    (a1, d1) = List.foldl rf (a0, d0) <| List.range 1 n
   in
     (a1, d1)
 
