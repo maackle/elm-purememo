@@ -70,7 +70,7 @@ The above example was cumbersome because we had to manually carry the memoizatio
 
 ```elm
 memoized = purememo identity contrivedYetExpensiveComputation
-(vals, d) = Purememo.thread Dict.empty [1, 2, 1]
+(vals, d) = Purememo.thread memoized Dict.empty [1, 2, 1]
 ```
 
 Here, `vals` is the same as `[x, y, z]` from the prior example, and `d` is the same as `d3`
